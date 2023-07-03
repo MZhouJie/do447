@@ -1,0 +1,12 @@
+---
+- name: config PS1
+  hosts: all
+  gather_facts: false
+  remote_user: root
+  tasks:
+    - name: set PS1 var
+      copy:
+        src: .bashrc
+        dest: /root/.bashrc
+        backup: true
+

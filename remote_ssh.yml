@@ -1,0 +1,10 @@
+---
+- name: Configure known_hosts files for all hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: install ssh key
+      authorized_key:
+         user: root
+         key: "{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+         state: present

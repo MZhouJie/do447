@@ -1,0 +1,16 @@
+---
+- name: set hostname
+  hosts: all
+  gather_facts: false
+  remote_user: root
+  tasks:
+
+     - name: config hostname
+       hostname:
+         name: "{{ item['hostname'] }}"
+         use: systemd
+       # debug:
+       #   var: item.hostname
+       loop: "{{ set_hostname }}"
+       # with_items: set_hostname
+       when: 'item.ip == inventory_hostname'
