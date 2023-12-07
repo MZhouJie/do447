@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+    users:
+      - user: user1
+        passwd: user@123
+      - user: user2
+        passwd: user@123
+  tasks:
+      - name: create user
+        user:
+          name: "{{ item.user }}"
+          generate_ssh_key: yes
+          ssh_key_bits: 2048
+          ssh_key_file: ".ssh/{{ item.user }}_id_rsa"
+          password: "{{ item.passwd | password_hash('sha512') }}"
+        loop: "{{ users }}"
+      - fetch:
+           src: "/home/{{ item.user }}/.ssh/{{ item.user }}_id_rsa.pub"
+           dest: /tmp/public/
+           flat: yes
+        loop: "{{ users }}"
+      - authorized_key:
+          user: "{{ item.user }}"
+          key: "{{ lookup('file', '/tmp/public/' + item.user + '_id_rsa.pub') }}"
+        loop: "{{ users }}"
+

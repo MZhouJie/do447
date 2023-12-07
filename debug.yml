@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars:
+     # hosts: "{{ lookup('file', '/etc/hosts', '/etc/issue') }}"
+     # hosts1: "{{ query('file', '/etc/hosts', '/etc/issue' ) }}"
+     name: class
+      
+  tasks:
+    # - debug:
+    #         var: hosts
+    # - debug:
+    #         var: hosts1
+    # - name: Use the template plug-in for lookup filter
+    #   debug: 
+    #     msg: "{{ lookup('template', 'my_template.j2') }}"
+    # - name: Use the template plug-in for query filter
+    #   debug:
+    #     msg: "{{ query('template', 'my_template.j2') }}"
+    # - name: Use the pipe plug-in for query filter
+    #   debug:
+    #     msg: "{{ query('pipe', 'ls /etc/hosts', 'cat /etc/hosts') }}"
+    # - name: USe the lines plug-in for query filter
+    #   debug: 
+    #     msg: "{{ query('lines', 'ls /etc/hosts', 'cat /etc/hosts', 'cat /etc/issue') }}"
+    # - name: Use the lines plug-in for query filter
+    #   debug: 
+    #     msg: "{{ query('lines',  'cat -n /etc/hosts', 'cat -n /etc/issue') }}"
+    # - name: Use the lines plug-in for query filter
+    #   debug:
+    #     msg: "{{ item[5] }}"
+    #   loop:
+    #     - "{{ query('lines', 'cat /etc/hosts') }}"
+    #     - "{{ query('lines', 'cat /etc/issue') }}"
+    # - name: Use the url plug-in for lookup filter
+    #   debug:
+    #     msg: "{{ lookup('url', 'http://localhost/index.html') }}"
+     - name: Use the errors parameter of the file plug-in in the lookup filter
+       debug:
+         msg: "{{ lookup('file', 'my.file', errors='warn') | default('default file content') }}"
+     - name: Use the errors parameter of the file plug-in in the lookup filter
+       debug:
+         msg: "{{ lookup('file', 'my.file', errors='ignore') | default('default file content') }}"
+     - name: Use the errors parameter of the file plug-in in the lookup filter
+       debug:
+         msg: "{{ lookup('file', 'my.file', errors='strict') | default('default file content') }}"
